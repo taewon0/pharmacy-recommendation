@@ -16,6 +16,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Pharmacy {
 
+    // jpa로 save를 할 때, pk와 타입으로 영속성 컨텍스트에 저장되어야 하는데,
+    // 예외적으로 id를 db에서 정해주는 경우 db에 먼저 저장 후 영속성 컨텍스트에 저장된다.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,5 +26,9 @@ public class Pharmacy {
     private String pharmacyAddress;
     private double x;
     private double y;
+
+    public void changePharmacyAddress(String address){
+        this.pharmacyAddress = address;
+    }
 
 }
