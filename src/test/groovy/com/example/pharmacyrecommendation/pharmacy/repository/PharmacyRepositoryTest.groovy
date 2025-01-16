@@ -12,6 +12,10 @@ class PharmacyRepositoryTest extends AbstractIntegrationContainerBaseTest {
     @Autowired
     private PharmacyRepository pharmacyRepository;
 
+    def setup(){
+        pharmacyRepository.deleteAll()
+    }
+
     def "PharmacyRepository save"(){
         given:
         String address = "서울특별시 강서구 등촌동"
@@ -36,4 +40,28 @@ class PharmacyRepositoryTest extends AbstractIntegrationContainerBaseTest {
         result.getY() == y
 
     }
+
+    def "PharmacyRepository save All"(){
+        given:
+        String address = "서울특별시 강서구 등촌동"
+        String name = "하나로 약국"
+        double x = 128.11
+        double y = 36.11
+
+        def pharmacy = Pharmacy.builder()
+                .pharmacyAddress(address)
+                .pharmacyName(name)
+                .x(x)
+                .y(y)
+                .build()
+
+        when:
+        pharmacyRepository.saveAll(Arrays.asList(pharmacy))
+        def result = pharmacyRepository.findAll()
+
+        then:
+        result.size() == 1
+
+    }
+
 }
