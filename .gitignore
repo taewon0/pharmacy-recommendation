@@ -223,4 +223,8 @@ gradle-app.setting
 ### environment variable
 .env
 
+### application.properties
+/src/test/resources/application.properties
+/src/main/resources/application.properties
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,intellij+all,visualstudiocode,java,gradle
