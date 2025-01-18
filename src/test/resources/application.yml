@@ -16,7 +16,7 @@ spring:
     url: jdbc:tc:mariadb:10:///
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
 ---
 spring:
