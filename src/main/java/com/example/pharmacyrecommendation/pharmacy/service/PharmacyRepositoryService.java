@@ -60,4 +60,9 @@ public class PharmacyRepositoryService {
 
     }
 
+    @Transactional(readOnly = true)
+    public List<Pharmacy> findAll(){
+        return pharmacyRepository.findAll();
+    }
+
 }
