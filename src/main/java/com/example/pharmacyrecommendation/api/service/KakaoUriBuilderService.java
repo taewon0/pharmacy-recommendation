@@ -17,7 +17,7 @@ public class KakaoUriBuilderService {
         builder.queryParam("query", address);
 
         URI uri = builder.build().encode().toUri();
-        log.info("[KakaoUriBuilderService][buildUriByAddressSearch] address: {}, uri: {}", address, uri);
+        //log.info("[KakaoUriBuilderService][buildUriByAddressSearch] address: {}, uri: {}", address, uri);
 
         return uri;
     }
