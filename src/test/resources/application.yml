@@ -1,0 +1,44 @@
+spring:
+  profiles:
+    active: groovyTest
+    group:
+      groovyTest:
+        - common
+      javaTest:
+        - common
+---
+spring:
+  config:
+    activate:
+      on-profile: groovyTest
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:mariadb:10:///
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+---
+spring:
+  config:
+    activate:
+      on-profile: common
+kakao:
+  rest:
+    api:
+      key: ${KAKAO_REST_API_KEY}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: javaTest
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3307/pharmacy_recommendation
+    username: ${MARIADB_LOCAL_USERNAME}
+    password: ${MARIADB_LOCAL_PASSWORD}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
