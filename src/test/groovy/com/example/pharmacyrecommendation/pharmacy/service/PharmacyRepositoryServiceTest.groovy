@@ -59,4 +59,29 @@ class PharmacyRepositoryServiceTest extends AbstractIntegrationContainerBaseTest
         result.get(0).getPharmacyAddress() == inputAddress
     }
 
+    def "self invocation"(){
+        given:
+        String inputAddress = "서울시 강서구 염창동"
+        String modifiedAddress = "서울시 광진구 군자동"
+        String name = "하나로 약국"
+        double x = 128.11
+        double y = 36.11
+
+        def pharmacy = Pharmacy.builder()
+                .pharmacyAddress(inputAddress)
+                .pharmacyName(name)
+                .x(x)
+                .y(y)
+                .build()
+
+        when:
+        pharmacyRepositoryService.bar(Arrays.asList(pharmacy))
+
+        then:
+        def e = thrown(RuntimeException.class)
+        def result = pharmacyRepositoryService.findAll()
+        result.size() == 1 // 트랜잭션이 적용되지 않는다(롤백 X)
+
+    }
+
 }
