@@ -15,7 +15,7 @@ services:
       context: ./database
     image: xodnjs1/pharmacy-recommendation-database
     environment:
-      - MARIADB_DATABASE=pharmacy-recommendation
+      - MARIADB_DATABASE=pharmacy_recommendation
       - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
     volumes:
       - ./database/config:/etc/mysql/conf.d
