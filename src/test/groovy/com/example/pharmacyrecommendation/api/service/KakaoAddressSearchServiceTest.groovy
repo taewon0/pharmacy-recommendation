@@ -1,6 +1,7 @@
 package com.example.pharmacyrecommendation.api.service
 
 import com.example.pharmacyrecommendation.AbstractIntegrationContainerBaseTest
+import com.example.pharmacyrecommendation.api.dto.KakaoAddressSearchApiResponse
 import org.springframework.beans.factory.annotation.Autowired
 
 class KakaoAddressSearchServiceTest extends AbstractIntegrationContainerBaseTest {
@@ -32,6 +33,31 @@ class KakaoAddressSearchServiceTest extends AbstractIntegrationContainerBaseTest
         result.metaDto.totalCount > 0
         result.documentDtoList.get(0) != null
 
+    }
+
+    def "정상적인 주소를 입력받을 경우, 정상적으로 위도 경도로 변환된다."(){
+        given:
+        boolean actualResult = false
+
+        when:
+        def searchResult = kakaoAddressSearchService.requestAddressSearch(inputAddress)
+
+        then:
+        if (searchResult == null) actualResult = false
+        else actualResult = searchResult.getDocumentDtoList().size() > 0
+
+        actualResult == expectedResult
+        println actualResult
+
+        where:
+        inputAddress                        | expectedResult
+        "서울 특별시 성북구 종암동"             | true
+        "서울 성북구 종암동 91"                | true
+        "서울 대학로"                         | true
+        "서울 성북구 종암동 잘못된 주소"         | false
+        "광진구 구의동 251-45"                 | true
+        "광진구 구의동 251-455555"             | false
+        ""                                   | false
     }
 
 }
