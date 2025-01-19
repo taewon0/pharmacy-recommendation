@@ -37,4 +37,7 @@ public class Pharmacy extends BaseTimeEntity {
         this.pharmacyAddress = address;
     }
 
+    public static Pharmacy of(Long id, String pharmacyName, String pharmacyAddress, double x, double y) {
+        return new Pharmacy(id, pharmacyName, pharmacyAddress, x, y);
+    }
 }
