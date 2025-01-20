@@ -1,10 +1,7 @@
 package com.example.pharmacyrecommendation.direction.entity;
 
 import com.example.pharmacyrecommendation.BaseTimeEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,12 +20,16 @@ public class Direction extends BaseTimeEntity {
 
     // 고객
     private String inputAddress;
+    @Column(name = "input_x")
     private double inputX;
+    @Column(name = "input_y")
     private double inputY;
 
     // 약국
     private String targetPharmacyName;
+    @Column(name = "target_x")
     private double targetX;
+    @Column(name = "target_y")
     private double targetY;
     private String targetAddress;
 
