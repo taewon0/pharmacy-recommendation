@@ -1,6 +1,7 @@
 package com.example.pharmacyrecommendation.direction.service;
 
 import com.example.pharmacyrecommendation.api.dto.DocumentDto;
+import com.example.pharmacyrecommendation.api.service.KakaoCategorySearchService;
 import com.example.pharmacyrecommendation.direction.entity.Direction;
 import com.example.pharmacyrecommendation.direction.repository.DirectionRepository;
 import com.example.pharmacyrecommendation.pharmacy.service.PharmacySearchService;
@@ -21,8 +22,9 @@ import java.util.Objects;
 public class DirectionService {
 
     private static final int MAX_SEARCH_COUNT = 3; // 약국 추천 최대 개수
-    private static final double RADIUS_CUS_KM = 10; // 고객 반경 범위 10km
+    private static final double RADIUS_CUS_KM = 2; // 고객 반경 범위 2km
 
+    private final KakaoCategorySearchService kakaoCategorySearchService;
     private final PharmacySearchService pharmacySearchService;
     private final DirectionRepository directionRepository;
 
@@ -52,9 +54,28 @@ public class DirectionService {
                 .sorted(Comparator.comparing(Direction::getDistance))
                 .limit(MAX_SEARCH_COUNT)
                 .toList();
+    }
 
+    public List<Direction> buildDirectionListByCategoryApi(DocumentDto documentDto){
 
+        if (Objects.isNull(documentDto)) return Collections.emptyList();
 
+        return kakaoCategorySearchService
+                .requestPharmacyCategorySearch(documentDto.getX(), documentDto.getY(), RADIUS_CUS_KM)
+                .getDocumentDtoList()
+                .stream().map(resultDocumentDto ->
+                        Direction.builder()
+                                .inputAddress(documentDto.getAddressName())
+                                .inputX(documentDto.getX())
+                                .inputY(documentDto.getY())
+                                .targetPharmacyName(resultDocumentDto.getPlaceName())
+                                .targetAddress(resultDocumentDto.getAddressName())
+                                .targetX(resultDocumentDto.getX())
+                                .targetY(resultDocumentDto.getY())
+                                .distance(resultDocumentDto.getDistance() * 0.001)
+                                .build())
+                .limit(MAX_SEARCH_COUNT)
+                .toList();
     }
 
     // 구면 코사인 법칙

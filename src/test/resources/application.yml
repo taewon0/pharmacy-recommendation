@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: groovyTest
+    active: javaTest
     group:
       groovyTest:
         - common
