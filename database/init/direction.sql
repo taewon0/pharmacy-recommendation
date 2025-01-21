@@ -18,7 +18,7 @@
 DROP TABLE IF EXISTS `direction`;
 CREATE TABLE IF NOT EXISTS `direction` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `create_date` datetime(6) DEFAULT NULL,
+  `created_date` datetime(6) DEFAULT NULL,
   `modified_date` datetime(6) DEFAULT NULL,
   `distance` double NOT NULL,
   `input_address` varchar(255) DEFAULT NULL,
