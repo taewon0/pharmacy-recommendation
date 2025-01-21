@@ -1,6 +1,8 @@
 package com.example.pharmacyrecommendation.direction.service
 
 import com.example.pharmacyrecommendation.api.dto.DocumentDto
+import com.example.pharmacyrecommendation.api.service.KakaoCategorySearchService
+import com.example.pharmacyrecommendation.direction.repository.DirectionRepository
 import com.example.pharmacyrecommendation.pharmacy.dto.PharmacyDto
 import com.example.pharmacyrecommendation.pharmacy.service.PharmacySearchService
 import spock.lang.Specification
@@ -8,8 +10,12 @@ import spock.lang.Specification
 class DirectionServiceTest extends Specification {
 
     private PharmacySearchService pharmacySearchService = Mock()
+    private DirectionRepository directionRepository = Mock()
+    private KakaoCategorySearchService kakaoCategorySearchService = Mock()
 
-    private DirectionService directionService = new DirectionService(pharmacySearchService)
+    private DirectionService directionService = new DirectionService(
+            kakaoCategorySearchService, pharmacySearchService, directionRepository
+    )
 
     private List<PharmacyDto> pharmacyDtoList
 
@@ -39,21 +45,24 @@ class DirectionServiceTest extends Specification {
         double inputX = 126.874890556801
         double inputY = 37.5533141837481
 
-        def documentDto = new DocumentDto(addressName, inputX, inputY);
+        def documentDto = DocumentDto.builder()
+            .addressName(addressName)
+            .x(inputX)
+            .y(inputY)
+            .build()
 
         when:
         pharmacySearchService.searchPharmacyDtoList() >> pharmacyDtoList
         def results = directionService.buildDirectionList(documentDto)
 
         then:
-        results.size() == 2
+        // 하나는 반경 밖에 있음
+        results.size() == 1
         results.get(0).targetPharmacyName == "하나로약국"
-        results.get(1).targetPharmacyName == "태평양약국"
         println results.get(0).distance
-        println results.get(1).distance
     }
 
-    def "buildDirectionList - 정해진 반경(10km) 이내로 검색이 되는지 확인"(){
+    def "buildDirectionList - 정해진 반경(2km) 이내로 검색이 되는지 확인"(){
 
         given:
         pharmacyDtoList.add(
@@ -69,18 +78,20 @@ class DirectionServiceTest extends Specification {
         double inputX = 126.874890556801
         double inputY = 37.5533141837481
 
-        def documentDto = new DocumentDto(addressName, inputX, inputY);
+        def documentDto = DocumentDto.builder()
+                .addressName(addressName)
+                .x(inputX)
+                .y(inputY)
+                .build()
 
         when:
         pharmacySearchService.searchPharmacyDtoList() >> pharmacyDtoList
         def results = directionService.buildDirectionList(documentDto)
 
         then:
-        results.size() == 2
+        results.size() == 1
         results.get(0).targetPharmacyName == "하나로약국"
-        results.get(1).targetPharmacyName == "태평양약국"
         println results.get(0).distance
-        println results.get(1).distance
     }
 
 }
