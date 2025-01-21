@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,9 +25,13 @@ public class DirectionService {
     private static final int MAX_SEARCH_COUNT = 3; // 약국 추천 최대 개수
     private static final double RADIUS_CUS_KM = 2; // 고객 반경 범위 2km
 
+    public static final String DIRECTION_BASE_URL = "https://map.kakao.com/link/to/";
+    public static final String ROAD_VIEW_BASE_URL = "https://map.kakao.com/link/roadview/";
+
     private final KakaoCategorySearchService kakaoCategorySearchService;
     private final PharmacySearchService pharmacySearchService;
     private final DirectionRepository directionRepository;
+    private final Base62Service base62Service = new Base62Service();
 
     @Transactional
     public List<Direction> saveAll(List<Direction> directionList){
@@ -35,6 +40,26 @@ public class DirectionService {
         return directionRepository.saveAll(directionList);
 
     }
+
+    public String findDirectionUrl(String encodedId){
+        Long decodedId = base62Service.decodeDirectionId(encodedId);
+        Direction direction = directionRepository.findById(decodedId).orElse(null);
+        if (Objects.isNull(direction)) return "";
+
+        String params = String.join(",",
+                direction.getTargetPharmacyName(), String.valueOf(direction.getTargetY()), String.valueOf(direction.getTargetX()));
+
+        return UriComponentsBuilder.fromUriString(DIRECTION_BASE_URL + params).toUriString();
+    }
+
+    public String findRoadViewUrl(String encodedId){
+        Long decodedId = base62Service.decodeDirectionId(encodedId);
+        Direction direction = directionRepository.findById(decodedId).orElse(null);
+        if (Objects.isNull(direction)) return "";
+
+        return ROAD_VIEW_BASE_URL + direction.getTargetY() + "," + direction.getTargetX();
+    }
+
     public List<Direction> buildDirectionList(DocumentDto documentDto){
 
         if (Objects.isNull(documentDto)) return Collections.emptyList();
