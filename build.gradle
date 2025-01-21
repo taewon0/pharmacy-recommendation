@@ -55,6 +55,7 @@ dependencies {
     // handlebars
     //implementation 'pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.4'
 
+    // thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
 }
