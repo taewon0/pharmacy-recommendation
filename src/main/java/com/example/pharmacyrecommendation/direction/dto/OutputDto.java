@@ -1,9 +1,8 @@
 package com.example.pharmacyrecommendation.direction.dto;
 
-
 import com.example.pharmacyrecommendation.direction.entity.Direction;
+import com.example.pharmacyrecommendation.direction.service.Base62Service;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Slf4j
 public record OutputDto(
@@ -14,8 +13,8 @@ public record OutputDto(
         String distance
 ) {
 
-    public static final String DIRECTION_BASE_URL = "https://map.kakao.com/link/to/";
-    public static final String ROAD_VIEW_BASE_URL = "https://map.kakao.com/link/roadview/";
+    public static String DIRECTION_BASE_URL = "http://localhost:8080/dir/";
+    public static String ROAD_VIEW_BASE_URL = "http://localhost:8080/road/";
 
     public OutputDto(String pharmacyName, String pharmacyAddress, String directionUrl, String roadViewUrl, String distance) {
         this.pharmacyName = pharmacyName;
@@ -35,17 +34,14 @@ public record OutputDto(
 
     public static OutputDto toDto(Direction direction){
 
-        String params = String.join(",",
-                direction.getTargetPharmacyName(), String.valueOf(direction.getTargetY()), String.valueOf(direction.getTargetX()));
-
-        String directionUrl = UriComponentsBuilder.fromUriString(DIRECTION_BASE_URL + params).toUriString();
-        log.info("direction url : {}", directionUrl);
+        Base62Service base62Service = new Base62Service();
+        String encodedId = base62Service.encodeDirectionId(direction.getId());
 
         return OutputDto.of(
                 direction.getTargetPharmacyName(),
                 direction.getTargetAddress(),
-                directionUrl,
-                ROAD_VIEW_BASE_URL + direction.getTargetY() + "," + direction.getTargetX(),
+                DIRECTION_BASE_URL + encodedId,
+                ROAD_VIEW_BASE_URL + encodedId,
                 String.format("%.2f km",direction.getDistance())
         );
     }

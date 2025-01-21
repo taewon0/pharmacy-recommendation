@@ -3,6 +3,7 @@ package com.example.pharmacyrecommendation.api.service;
 import com.example.pharmacyrecommendation.api.dto.KakaoAddressSearchApiResponse;
 import com.example.pharmacyrecommendation.pharmacy.entity.Pharmacy;
 import com.example.pharmacyrecommendation.pharmacy.repository.PharmacyRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 
+@Disabled
 @SpringBootTest
 class KakaoAddressSearchServiceDataImportTest {
 

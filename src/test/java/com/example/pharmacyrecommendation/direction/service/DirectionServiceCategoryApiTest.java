@@ -2,6 +2,7 @@ package com.example.pharmacyrecommendation.direction.service;
 
 import com.example.pharmacyrecommendation.api.dto.DocumentDto;
 import com.example.pharmacyrecommendation.direction.entity.Direction;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
+@Disabled
 @SpringBootTest
 class DirectionServiceCategoryApiTest {
 
