@@ -1,5 +1,6 @@
 package com.example.pharmacyrecommendation.pharmacy.service;
 
+import com.example.pharmacyrecommendation.pharmacy.cache.PharmacyRedisTemplateService;
 import com.example.pharmacyrecommendation.pharmacy.dto.PharmacyDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +14,16 @@ import java.util.List;
 public class PharmacySearchService {
 
     private final PharmacyRepositoryService pharmacyRepositoryService;
+    private final PharmacyRedisTemplateService pharmacyRedisTemplateService;
 
     public List<PharmacyDto> searchPharmacyDtoList(){
 
         // redis
+        List<PharmacyDto> pharmacyDtoList = pharmacyRedisTemplateService.findAll();
+        if (!pharmacyDtoList.isEmpty()) {
+            log.info("redis findAll success");
+            return pharmacyDtoList;
+        }
 
         // db
         return pharmacyRepositoryService.findAll()

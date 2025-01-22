@@ -39,8 +39,8 @@ public class PharmacyRecommendationService {
 
         DocumentDto documentDto = response.getDocumentDtoList().get(0);
 
-        //List<Direction> directionList = directionService.buildDirectionList(documentDto);
-        List<Direction> directionList = directionService.buildDirectionListByCategoryApi(documentDto);
+        List<Direction> directionList = directionService.buildDirectionList(documentDto);
+        //List<Direction> directionList = directionService.buildDirectionListByCategoryApi(documentDto);
 
         return directionService.saveAll(directionList)
                 .stream().map(OutputDto::toDto).toList();
