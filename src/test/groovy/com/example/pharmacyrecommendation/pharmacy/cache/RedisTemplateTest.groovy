@@ -3,6 +3,7 @@ package com.example.pharmacyrecommendation.pharmacy.cache
 import com.example.pharmacyrecommendation.AbstractIntegrationContainerBaseTest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.data.redis.core.SetOperations
 
 class RedisTemplateTest extends AbstractIntegrationContainerBaseTest {
 
@@ -21,6 +22,39 @@ class RedisTemplateTest extends AbstractIntegrationContainerBaseTest {
         then:
         def result = valueOperations.get(key)
         result == value
+    }
+    
+    def "RedisTemplate set operations"(){
+        given:
+        def setOperations = redisTemplate.opsForSet()
+        def key = "setKey"
+
+        when:
+        setOperations.add(key, "h", "e", "l", "l", "o")
+
+        then:
+        def size = setOperations.size(key)
+        size == 4
+    }
+
+    def "RedisTemplate hash operations"(){
+        given:
+        def hashOperations = redisTemplate.opsForHash()
+        def key = "hashKey"
+
+        when:
+        hashOperations.put(key, "subKey", "value")
+
+        then:
+        def get = hashOperations.get(key, "subKey")
+        get == "value"
+
+        def entries = hashOperations.entries(key)
+        entries.keySet().contains("subKey")
+        entries.values().contains("value")
+
+        def size = hashOperations.size(key)
+        size == entries.size()
     }
 
 }
