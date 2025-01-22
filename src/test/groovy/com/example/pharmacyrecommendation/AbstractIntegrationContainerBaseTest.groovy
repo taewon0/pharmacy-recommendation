@@ -17,8 +17,8 @@ abstract class AbstractIntegrationContainerBaseTest extends Specification{
         MY_REDIS_CONTAINER.start()
         // 도커에서 expose 할 때 포트는 6379지만 호스트에서 포트는 충돌하지 않는 랜덤 포트가 정해진다.
         // 이 랜덤 포트를 스프링부트에게 알려줘야 통신할 수 있다.
-        System.setProperty("spring.redis.host", MY_REDIS_CONTAINER.getHost())
-        System.setProperty("spring.redis.port", MY_REDIS_CONTAINER.getMappedPort(6379).toString())
+        System.setProperty("spring.data.redis.host", MY_REDIS_CONTAINER.getHost())
+        System.setProperty("spring.data.redis.port", MY_REDIS_CONTAINER.getMappedPort(6379).toString())
 
 
     }
