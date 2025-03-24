@@ -72,7 +72,7 @@ pharmacy:
   recommendation:
     dir:
       base:
-        url: http://localhost/dir/
+        url: http://3.34.60.148/dir/
     road:
       base:
-        url: http://localhost/road/
+        url: http://3.34.60.148/road/
