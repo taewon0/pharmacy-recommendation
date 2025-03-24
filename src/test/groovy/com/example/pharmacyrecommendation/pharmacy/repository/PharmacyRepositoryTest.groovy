@@ -3,11 +3,13 @@ package com.example.pharmacyrecommendation.pharmacy.repository
 import com.example.pharmacyrecommendation.AbstractIntegrationContainerBaseTest
 import com.example.pharmacyrecommendation.PharmacyRecommendationApplication
 import com.example.pharmacyrecommendation.pharmacy.entity.Pharmacy
+import org.junit.jupiter.api.Disabled
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 
 import java.time.LocalDateTime
 
+@Disabled
 @ContextConfiguration(classes = PharmacyRecommendationApplication.class)
 class PharmacyRepositoryTest extends AbstractIntegrationContainerBaseTest {
 

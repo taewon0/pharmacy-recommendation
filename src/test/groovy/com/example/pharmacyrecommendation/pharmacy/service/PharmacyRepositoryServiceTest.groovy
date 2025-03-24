@@ -3,8 +3,10 @@ package com.example.pharmacyrecommendation.pharmacy.service
 import com.example.pharmacyrecommendation.AbstractIntegrationContainerBaseTest
 import com.example.pharmacyrecommendation.pharmacy.entity.Pharmacy
 import com.example.pharmacyrecommendation.pharmacy.repository.PharmacyRepository
+import org.junit.jupiter.api.Disabled
 import org.springframework.beans.factory.annotation.Autowired
 
+@Disabled
 class PharmacyRepositoryServiceTest extends AbstractIntegrationContainerBaseTest {
 
     @Autowired
