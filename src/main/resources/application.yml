@@ -12,11 +12,16 @@ spring:
   config:
     activate:
       on-profile: common
+  data:
+    redis:
+      repositories:
+        enabled: false
 
 kakao:
   rest:
     api:
       key: ${KAKAO_REST_API_KEY}
+
 
 ---
 spring:
@@ -67,7 +72,7 @@ pharmacy:
   recommendation:
     dir:
       base:
-        url: http://localhost:8080/dir/
+        url: http://localhost/dir/
     road:
       base:
-        url: http://localhost:8080/road/
+        url: http://localhost/road/
