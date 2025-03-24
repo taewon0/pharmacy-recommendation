@@ -1,0 +1,52 @@
+services:
+  pharmacy-recommendation-redis:
+    container_name: pharmacy-recommendation-redis
+    build:
+      dockerfile: Dockerfile
+      context: ./redis
+    image: xodnjs1/pharmacy-recommendation-redis
+    ports:
+      - "6379:6379"
+#    healthcheck:
+#      test: ["CMD", "redis-cli", "ping"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+  pharmacy-recommendation-database:
+    container_name: pharmacy-recommendation-database
+    build:
+      dockerfile: Dockerfile
+      context: ./database
+    image: xodnjs1/pharmacy-recommendation-database
+    environment:
+      - MARIADB_DATABASE=pharmacy_recommendation
+      - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+    volumes:
+      - ./database/config:/etc/mysql/conf.d
+      - ./database/init:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+#    healthcheck:
+#      test: ["CMD", "mysqladmin", "ping", "-h", "pharmacy-recommendation-database", "-u", "root", "-prootpassword"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+  pharmacy-recommendation-app:
+    container_name: pharmacy-recommendation-app
+    build: .
+    depends_on: # DB, redis가 먼저 실행된 후 스프링부트 실행
+      - pharmacy-recommendation-database
+      - pharmacy-recommendation-redis
+#        condition: service_healthy
+#        condition: service_healthy
+    image: xodnjs1/pharmacy-recommendation-app
+    environment:
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - KAKAO_REST_API_KEY=${KAKAO_REST_API_KEY}
+    ports:
+      - "80:8080"
+    restart: always # depends on 은 실행 순서만 컨트롤함
+    # 컨테이너의 서비스가 실행 가능한지는 확인하지 않아서
+    # 실행 실패시 재시작하도록 설정

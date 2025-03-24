@@ -12,11 +12,16 @@ spring:
   config:
     activate:
       on-profile: common
+  data:
+    redis:
+      repositories:
+        enabled: false
 
 kakao:
   rest:
     api:
       key: ${KAKAO_REST_API_KEY}
+
 
 ---
 spring:
@@ -36,9 +41,38 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: true
+pharmacy:
+  recommendation:
+    dir:
+      base:
+        url: http://localhost:8080/dir/
+    road:
+      base:
+        url: http://localhost:8080/road/
 
 ---
 spring:
   config:
     activate:
       on-profile: prod
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://pharmacy-recommendation-database:3306/pharmacy_recommendation
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  data:
+    redis:
+      host: pharmacy-recommendation-redis
+      port: 6379
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+pharmacy:
+  recommendation:
+    dir:
+      base:
+        url: http://localhost/dir/
+    road:
+      base:
+        url: http://localhost/road/

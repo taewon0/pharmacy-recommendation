@@ -22,8 +22,8 @@ class FormControllerTest extends Specification {
 
         outputDtoList = new ArrayList<>()
         outputDtoList.addAll(
-                OutputDto.of("pharmacy1"),
-                OutputDto.of("pharmacy2")
+                OutputDto.builder().pharmacyName("pharmacy1").build(),
+                OutputDto.builder().pharmacyName("pharmacy2").build()
         )
     }
 

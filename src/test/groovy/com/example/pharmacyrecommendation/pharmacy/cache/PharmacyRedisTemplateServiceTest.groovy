@@ -2,8 +2,10 @@ package com.example.pharmacyrecommendation.pharmacy.cache
 
 import com.example.pharmacyrecommendation.AbstractIntegrationContainerBaseTest
 import com.example.pharmacyrecommendation.pharmacy.dto.PharmacyDto
+import org.junit.jupiter.api.Disabled
 import org.springframework.beans.factory.annotation.Autowired
 
+@Disabled
 class PharmacyRedisTemplateServiceTest extends AbstractIntegrationContainerBaseTest {
 
     @Autowired

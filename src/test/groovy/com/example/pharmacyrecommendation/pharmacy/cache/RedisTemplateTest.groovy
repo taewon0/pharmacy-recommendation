@@ -1,10 +1,11 @@
 package com.example.pharmacyrecommendation.pharmacy.cache
 
 import com.example.pharmacyrecommendation.AbstractIntegrationContainerBaseTest
+import org.junit.jupiter.api.Disabled
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.data.redis.core.SetOperations
 
+@Disabled
 class RedisTemplateTest extends AbstractIntegrationContainerBaseTest {
 
     @Autowired

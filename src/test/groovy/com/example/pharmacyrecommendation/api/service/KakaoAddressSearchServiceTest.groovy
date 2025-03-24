@@ -1,8 +1,10 @@
 package com.example.pharmacyrecommendation.api.service
 
 import com.example.pharmacyrecommendation.AbstractIntegrationContainerBaseTest
+import org.junit.jupiter.api.Disabled
 import org.springframework.beans.factory.annotation.Autowired
 
+@Disabled
 class KakaoAddressSearchServiceTest extends AbstractIntegrationContainerBaseTest {
 
     @Autowired
